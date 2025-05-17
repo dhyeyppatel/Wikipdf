@@ -87,7 +87,7 @@
 
   <div class="form-container">
     <select id="lang">
-      <option value="en">English (en)</option>
+      <option value="en" selected>English (en)</option>
       <option value="hi">Hindi (hi)</option>
       <option value="es">Spanish (es)</option>
       <option value="de">German (de)</option>
@@ -138,10 +138,11 @@
         }
 
         if (!response.ok) {
-          throw new Error("Failed to fetch");
+          throw new Error("Fetch error");
         }
 
-        showToast(`Downloading: ${query}.pdf`);
+        // Success: notify and open PDF
+        showToast("File is on the way");
         window.open(url, '_blank');
 
       } catch (error) {
