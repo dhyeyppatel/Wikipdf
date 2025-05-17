@@ -1,12 +1,10 @@
-# Wikipdf
 # Wikipedia to PDF
-
+#Wikipdf
 Convert any Wikipedia article into a clean, print-ready PDF — instantly and for free!
 
 ## 🌐 Live Demo
 
-**[Visit Now](https://your-github-username.github.io/wikipedia-to-pdf)**  
-*(Replace with your actual GitHub Pages link)*
+**[Visit Now](https://github.com/dhyeyppatel/Wikipdf)**  
 
 ---
 
@@ -37,13 +35,11 @@ Convert any Wikipedia article into a clean, print-ready PDF — instantly and fo
 - HTML5 + CSS3
 - Vanilla JavaScript
 - Wikipedia REST API  
-  `https://{lang}.wikipedia.org/api/rest_v1/page/pdf/{query}`
-
 ---
 
 ## 📥 Setup Locally
 
 ```bash
-git clone https://github.com/your-github-username/wikipedia-to-pdf.git
-cd wikipedia-to-pdf
+git clone https://github.com/dhyeyppatel/wikipdf
+cd wikipdf
 open index.html
