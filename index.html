@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wikipedia to PDF</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f2f2f2;
+      background: #e9ecef;
       margin: 0;
       padding: 2rem;
       display: flex;
@@ -16,48 +17,62 @@
       justify-content: center;
     }
     h1 {
-      color: #333;
-      margin-bottom: 0.5rem;
+      color: #202122;
+      margin-bottom: 0.3rem;
     }
     p {
-      color: #555;
+      color: #4b4b4b;
       text-align: center;
-      max-width: 500px;
+      max-width: 600px;
     }
     .form-container {
       margin-top: 1.5rem;
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       width: 100%;
-      max-width: 400px;
+      max-width: 450px;
     }
-    input, button {
+    input, select, button {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.75rem;
       margin: 0.5rem 0;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 1rem;
     }
     button {
-      background-color: #007bff;
+      background-color: #3366cc;
       color: white;
       cursor: pointer;
       border: none;
+      transition: background 0.3s;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #254a99;
+    }
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      z-index: 1000;
     }
     footer {
       margin-top: 2rem;
-      color: #777;
+      color: #666;
       font-size: 0.9rem;
       text-align: center;
     }
     a {
-      color: #007bff;
+      color: #3366cc;
       text-decoration: none;
     }
     a:hover {
@@ -71,10 +86,19 @@
   <p>Convert any Wikipedia article into a clean, print-ready PDF — instantly and free!</p>
 
   <div class="form-container">
-    <input id="lang" type="text" placeholder="Language code (e.g. en, es, hi)" value="en" required />
+    <select id="lang">
+      <option value="en">English (en)</option>
+      <option value="hi">Hindi (hi)</option>
+      <option value="es">Spanish (es)</option>
+      <option value="de">German (de)</option>
+      <option value="fr">French (fr)</option>
+    </select>
     <input id="query" type="text" placeholder="Article title (e.g. Artificial intelligence)" required />
     <button onclick="downloadPDF()">Download PDF</button>
+    <button onclick="clearForm()" style="background:#6c757d;">Clear</button>
   </div>
+
+  <div id="toast" class="toast"></div>
 
   <footer>
     From Web to Paper in Seconds!<br>
@@ -82,15 +106,48 @@
   </footer>
 
   <script>
-    function downloadPDF() {
-      const lang = document.getElementById('lang').value.trim();
-      const query = document.getElementById('query').value.trim().replace(/ /g, '_');
-      if (!lang || !query) {
-        alert('Please enter both language code and article title.');
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    function clearForm() {
+      document.getElementById('query').value = '';
+    }
+
+    async function downloadPDF() {
+      const lang = document.getElementById('lang').value;
+      const queryInput = document.getElementById('query').value.trim();
+      const query = queryInput.replace(/\s+/g, '_');
+
+      if (!query) {
+        alert('Please enter the article title.');
         return;
       }
+
       const url = `https://${lang}.wikipedia.org/api/rest_v1/page/pdf/${query}`;
-      window.open(url, '_blank');
+
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+
+        if (response.status === 404) {
+          alert(`This article is not available in ${lang.toUpperCase()}. Try another language like English.`);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch");
+        }
+
+        showToast(`Downloading: ${query}.pdf`);
+        window.open(url, '_blank');
+
+      } catch (error) {
+        console.error("Error fetching PDF:", error);
+        alert("System hiccup! Please try again.");
+      }
     }
   </script>
 
