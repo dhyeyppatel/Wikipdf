@@ -4,7 +4,7 @@ Convert any Wikipedia article into a clean, print-ready PDF — instantly and fo
 
 ## 🌐 Live Demo
 
-**[Visit Now](https://github.com/dhyeyppatel/Wikipdf)**  
+**[Visit Now](https://dhyeyppatel.github.io/Wikipdf/))**  
 
 ---
 
