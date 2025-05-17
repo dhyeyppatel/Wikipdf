@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wikipedia to PDF</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #555;
+      text-align: center;
+      max-width: 500px;
+    }
+    .form-container {
+      margin-top: 1.5rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    input, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    footer {
+      margin-top: 2rem;
+      color: #777;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Wikipedia to PDF</h1>
+  <p>Convert any Wikipedia article into a clean, print-ready PDF — instantly and free!</p>
+
+  <div class="form-container">
+    <input id="lang" type="text" placeholder="Language code (e.g. en, es, hi)" value="en" required />
+    <input id="query" type="text" placeholder="Article title (e.g. Artificial intelligence)" required />
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <footer>
+    From Web to Paper in Seconds!<br>
+    ©️ By: <a href="https://t.me/dhyeygotyou" target="_blank">@dhyeygotyou</a>
+  </footer>
+
+  <script>
+    function downloadPDF() {
+      const lang = document.getElementById('lang').value.trim();
+      const query = document.getElementById('query').value.trim().replace(/ /g, '_');
+      if (!lang || !query) {
+        alert('Please enter both language code and article title.');
+        return;
+      }
+      const url = `https://${lang}.wikipedia.org/api/rest_v1/page/pdf/${query}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
